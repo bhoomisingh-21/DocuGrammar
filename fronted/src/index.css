@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+body {
+  background: #0b0f19;
+}
+/* Fade-up on scroll */
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(40px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.fade-up {
+  opacity: 0;
+  animation: fadeUp 0.8s ease-out forwards;
+}
+
+/* Glow pulse on icons */
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 20px rgba(0,122,255,0.4); transform: scale(1); }
+  50% { box-shadow: 0 0 38px rgba(0,122,255,0.8); transform: scale(1.08); }
+  100% { box-shadow: 0 0 20px rgba(0,122,255,0.4); transform: scale(1); }
+}
+.icon-pulse {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+/* Floating elements */
+@keyframes floatY {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+.float {
+  animation: floatY 5s ease-in-out infinite;
+}
+
+/* Shimmer progress bar */
+@keyframes float-particle {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-12px) translateX(3px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) translateX(0);
+    opacity: 0.8;
+  }
+}
+
+.animate-particle {
+  animation: float-particle 3s ease-in-out infinite;
+}
+
+  
+    @keyframes boltPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.12); }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.15); }
+    }
+
+    @keyframes pulseGlowSlow {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.25); }
+    }
+
+    @keyframes particleFloat {
+      0% { transform: translateY(0); opacity: 0.6; }
+      50% { transform: translateY(-14px); opacity: 1; }
+      100% { transform: translateY(0); opacity: 0.6; }
+    }
+
+    .animate-boltPulse { animation: boltPulse 1.2s ease-in-out infinite; }
+    .animate-pulseGlow { animation: pulseGlow 3.6s ease-in-out infinite; }
+    .animate-pulseGlowSlow { animation: pulseGlowSlow 5s ease-in-out infinite; }
+
+    .animate-particle1 { animation: particleFloat 3.2s ease-in-out infinite; }
+    .animate-particle2 { animation: particleFloat 4.1s ease-in-out infinite; }
+    .animate-particle3 { animation: particleFloat 3.7s ease-in-out infinite; }
+    .animate-particle4 { animation: particleFloat 4.4s ease-in-out infinite; }
+  
+    .card-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-shine::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--x) var(--y),
+    rgba(59,130,246,0.35),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.card-shine:hover::before {
+  opacity: 1;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.8s ease-out infinite;
+}
+
+.underline-red {
+  text-decoration-line: underline;
+  text-decoration-color: #ef4444;
+  text-decoration-thickness: 2px;
+}
+
+.underline-yellow {
+  text-decoration-line: underline;
+  text-decoration-color: #eab308;
+  text-decoration-thickness: 2px;
+}
