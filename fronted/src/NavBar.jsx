@@ -44,21 +44,18 @@ export default function Navbar({
             : "max-w-[1400px] px-6 md:px-16"}
         `}
       >
-     {/* Logo */}
-<div
-  className="flex items-center gap-2 md:gap-3 cursor-pointer select-none"
-  onClick={handleLogoClick}
->
-  {/* Shrank the icon box slightly from w-9 to w-8 */}
-  <div className="w-8 h-8 md:w-9 md:h-9 rounded-lg md:rounded-xl bg-linear-to-br from-blue-400 to-blue-600 shadow-[0_0_20px_rgba(0,122,255,0.4)] flex items-center justify-center shrink-0">
-    <span className="text-white text-lg md:text-xl">✦</span>
-  </div>
-  
-  {/* Shrank the text size for mobile (text-lg) vs desktop (text-xl) */}
-  <h1 className="text-lg md:text-xl font-semibold text-gray-100 tracking-tight">
-    Docu<span className="text-white font-bold">Grammar</span>
-  </h1>
-</div>
+        {/* Logo */}
+        <div
+          className="flex items-center gap-2 md:gap-3 cursor-pointer select-none"
+          onClick={handleLogoClick}
+        >
+          <div className="w-8 h-8 md:w-9 md:h-9 rounded-lg md:rounded-xl bg-linear-to-br from-blue-400 to-blue-600 shadow-[0_0_20px_rgba(0,122,255,0.4)] flex items-center justify-center shrink-0">
+            <span className="text-white text-lg md:text-xl">✦</span>
+          </div>
+          <h1 className="text-lg md:text-xl font-semibold text-gray-100 tracking-tight">
+            Docu<span className="text-white font-bold">Grammar</span>
+          </h1>
+        </div>
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex items-center gap-12 text-gray-400 font-medium text-[15px]">
@@ -76,7 +73,7 @@ export default function Navbar({
                 className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition group"
                 onClick={() => navigate("/profile")}
               >
-                <div className="relative">
+                <div className="relative shrink-0">
                   {user.avatar ? (
                     <img
                       src={user.avatar}
@@ -89,7 +86,15 @@ export default function Navbar({
                     </div>
                   )}
                 </div>
-                <span className="text-gray-200 text-sm font-medium">
+
+                {/* USERNAME: Visible normally, collapses when shrunk */}
+                <span 
+                  className={`text-gray-200 text-sm font-medium transition-all duration-500 ease-in-out overflow-hidden whitespace-nowrap ${
+                    shrink 
+                      ? "max-w-0 opacity-0 pointer-events-none" 
+                      : "max-w-[150px] opacity-100"
+                  }`}
+                >
                   {user.name}
                 </span>
               </div>
@@ -117,7 +122,7 @@ export default function Navbar({
           )}
         </div>
 
-        {/* Mobile Action Area (Avatar + Hamburger) */}
+        {/* Mobile Action Area */}
         <div className="md:hidden flex items-center gap-3">
           {user && (
             <button
@@ -145,7 +150,6 @@ export default function Navbar({
         <div className="md:hidden absolute top-full left-0 w-full px-4 pt-2 animate-in fade-in slide-in-from-top-4 duration-300">
           <div className="rounded-2xl bg-[#0b0f19]/95 border border-white/10 backdrop-blur-2xl p-6 shadow-2xl space-y-6">
             
-            {/* User Profile Card - Mobile */}
             {user && (
               <div 
                 className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 cursor-pointer active:bg-white/10 transition-colors"

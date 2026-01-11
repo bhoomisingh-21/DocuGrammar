@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { CheckCircle, Wand2, RefreshCcw } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./context/AuthContext"; // Import your Auth hook
+import { ArrowRight, Sparkles } from "lucide-react"; // Optional: adding icons
 
 export default function DocuGrammarDemo() {
   const [fixed, setFixed] = useState(false);
@@ -14,6 +16,7 @@ export default function DocuGrammarDemo() {
       setFixed(true);
     }, 1500);
   };
+  const { user } = useAuth(); // Get user status
 
   return (
     <div className="min-h-screen bg-linear-to-br from-[#031026] via-[#030d1b] to-[#091c37] text-white flex items-center justify-center pt-24 md:pt-30 p-4 md:p-6 pb-15 relative overflow-hidden">
@@ -239,6 +242,8 @@ export function TestimonialsSection() {
 
 export function CTASection() {
   const navigate = useNavigate();
+  const { user } = useAuth(); // Get user status
+
   return (
     <section className="py-20 md:py-32 px-6 bg-[#020617] relative overflow-hidden">
       {/* Soft ambient glows */}
@@ -259,25 +264,40 @@ export function CTASection() {
         </div>
 
         <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
-          Ready to elevate your writing?
+          {user ? `Welcome back, ${user.name.split(' ')[0]}!` : "Ready to elevate your writing?"}
         </h2>
 
         <p className="text-gray-400 max-w-2xl mx-auto mb-12 text-base md:text-lg">
-          Join thousands of writers, students, and professionals who trust DocuGrammar
-          to deliver flawless, impactful writing every day.
+          {user 
+            ? "Your next masterpiece is waiting. Head over to the dashboard to start a new analysis." 
+            : "Join thousands of writers, students, and professionals who trust DocuGrammar to deliver flawless, impactful writing every day."}
         </p>
 
-        {/* CTA */}
+        {/* CTA BUTTON LOGIC */}
         <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-          <button
-            onClick={() => navigate("/login")}
-            className="group flex items-center gap-3 bg-white text-black px-10 md:px-12 py-4 rounded-full font-semibold shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-[0_0_25px_rgba(255,255,255,0.4)] relative overflow-hidden"
-          >
-            <span className="absolute inset-0 bg-linear-to-r from-transparent via-white/40 to-transparent w-[200%] h-full -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png" className="w-6 relative z-10" />
-            <span className="relative z-10 font-bold text-lg md:text-xl">Sign up Now</span>
-          </button>
-          <p className="text-gray-500 text-sm">No credit card required.</p>
+          {user ? (
+            /* Logged In: Go to Upload */
+            <button
+              onClick={() => navigate("/upload")}
+              className="group flex items-center gap-3 bg-blue-600 text-white px-10 md:px-12 py-4 rounded-full font-semibold shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-[0_0_25px_rgba(37,99,235,0.4)] relative overflow-hidden"
+            >
+              <Sparkles className="w-5 h-5" />
+              <span className="relative z-10 font-bold text-lg md:text-xl">Start Analyzing</span>
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </button>
+          ) : (
+            /* Logged Out: Show Google Sign Up */
+            <button
+              onClick={() => navigate("/login")}
+              className="group flex items-center gap-3 bg-white text-black px-10 md:px-12 py-4 rounded-full font-semibold shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-[0_0_25px_rgba(255,255,255,0.4)] relative overflow-hidden"
+            >
+              <span className="absolute inset-0 bg-linear-to-r from-transparent via-white/40 to-transparent w-[200%] h-full -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png" className="w-6 relative z-10" alt="Google logo" />
+              <span className="relative z-10 font-bold text-lg md:text-xl">Sign up Now</span>
+            </button>
+          )}
+          
+          {!user && <p className="text-gray-500 text-sm">No credit card required.</p>}
         </div>
       </div>
     </section>

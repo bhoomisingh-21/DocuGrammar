@@ -21,21 +21,37 @@ export default function Profile() {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+ useEffect(() => {
     const fetchHistory = async () => {
+      // Create a variable that picks the first available ID
+      const currentId = user?._id || user?.googleId || user?.uid;
+
+      // 1. Check against our new currentId variable
+      if (!currentId) {
+        setHistory([]);
+        setLoading(false);
+        return;
+      }
+
+      setHistory([]);
+      setLoading(true);
+
       try {
-        const userId = user?.uid || "test_user_id";
-        const response = await fetch(`https://docugrammar-backend.onrender.com/api/user-history/${userId}`);
+        // 2. Use currentId in the fetch URL
+        const response = await fetch(`https://docugrammar-backend.onrender.com/api/user-history/${currentId}`);
         const data = await response.json();
-        setHistory(data);
+        
+        setHistory(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error("Failed to fetch history:", err);
       } finally {
         setLoading(false);
       }
     };
+
     fetchHistory();
-  }, [user]);
+    // 3. Update the dependency array
+  }, [user?._id, user?.googleId, user?.uid]);
 
   const handleViewAnalysis = (item) => {
     navigate("/result", { state: item });
@@ -71,8 +87,12 @@ export default function Profile() {
 
         {/* Profile Header */}
         <div className="bg-linear-to-br from-[#0d121f] to-[#050916] border border-white/10 rounded-3xl p-8 mb-10 flex flex-col md:flex-row items-center gap-8 text-center md:text-left">
-          <div className="w-24 h-24 rounded-2xl bg-blue-600 flex items-center justify-center text-3xl font-bold shadow-[0_0_20px_rgba(59,130,246,0.3)]">
-            {user?.name?.charAt(0) || "U"}
+          <div className="w-24 h-24 rounded-2xl bg-blue-600 flex items-center justify-center text-3xl font-bold shadow-[0_0_20px_rgba(59,130,246,0.3)] shrink-0 overflow-hidden">
+            {user?.avatar ? (
+                <img src={user.avatar} alt="profile" className="w-full h-full object-cover" />
+            ) : (
+                user?.name?.charAt(0) || "U"
+            )}
           </div>
           <div className="flex-1">
             <h1 className="text-3xl font-bold text-white mb-1">{user?.name || "User Name"}</h1>
@@ -96,7 +116,11 @@ export default function Profile() {
 
             <div className="space-y-4">
               {loading ? (
-                <div className="text-gray-500 animate-pulse">Loading your history...</div>
+                <div className="flex flex-col gap-4">
+                    {[1,2,3].map(i => (
+                        <div key={i} className="h-20 bg-white/5 animate-pulse rounded-2xl" />
+                    ))}
+                </div>
               ) : history.length > 0 ? (
                 history.map((item) => (
                   <div
@@ -129,13 +153,13 @@ export default function Profile() {
               ) : (
                 <div className="text-center py-20 border border-dashed border-white/10 rounded-3xl px-4">
                   <p className="text-gray-500">No documents analyzed yet.</p>
-                  <button onClick={() => navigate("/")} className="mt-4 text-blue-400 hover:underline">Start writing now</button>
+                  <button onClick={() => navigate("/upload")} className="mt-4 text-blue-400 hover:underline">Start writing now</button>
                 </div>
               )}
             </div>
           </div>
 
-          {/* Stats Section: Grid for mobile side-by-side, space-y for desktop */}
+          {/* Stats Section */}
           <div>
             <div className="flex items-center gap-3 mb-6">
               <BarChart3 className="text-blue-400" size={20} />

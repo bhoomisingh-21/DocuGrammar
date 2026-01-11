@@ -40,7 +40,7 @@ export default function AnalysisResults() {
   const handleSaveToHistory = async () => {
     // UPDATED: Include EVERYTHING so history can restore the full page
     const analysisData = {
-      userId: "temporary_test_id",
+      userId: "temporary_test_id", 
       fileName: fileName || "Untitled Document", // Ensure fileName is defined
       originalText,
       correctedText,
@@ -51,12 +51,12 @@ export default function AnalysisResults() {
       clarityFeatures,
       toneAnalysis,
       // Add these to match your new Schema
-      score: clarityFeatures?.score || 0,
+      score: clarityFeatures?.score || 0, 
       issueCount: issues.length
     };
 
     try {
-      const response = await fetch("https://docugrammar-backend.onrender.com/api/save-analysis", {
+      const response = await fetch("http://localhost:5000/api/save-analysis", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(analysisData),

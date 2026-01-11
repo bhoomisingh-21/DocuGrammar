@@ -6,6 +6,7 @@ import {
   FileText, CheckCircle, Lightbulb, TrendingUp,
   Info, Copy, Download, Check, ArrowLeft, Save
 } from "lucide-react";
+import { useAuth } from "./context/AuthContext"; // Adjust the path if your folder structure is different
 
 export default function AnalysisResults() {
   const location = useLocation();
@@ -62,13 +63,24 @@ export default function AnalysisResults() {
     element.click();
     document.body.removeChild(element);
   };
+// 1. Make sure you are getting 'user' from your AuthContext at the top of your component
+  const { user } = useAuth(); 
 
-  //Save to MongoDB Function
-  const handleSaveToHistory = async () => {
-    if (isSaved) return; // Prevent double saves
+ const handleSaveToHistory = async () => {
+    if (isSaved) return;
+
+    // 1. Get the actual ID. Try uid, then _id, then googleId
+    const currentUserId = user?.uid || user?._id || user?.googleId;
+
+    // 2. Updated Check
+    if (!user || !currentUserId) {
+      alert("Please log in to save your analysis.");
+      console.log("Debug - User Object:", user); // This will help you see what's inside 'user'
+      return;
+    }
 
     const analysisSession = {
-      userId: "test_user_id",
+      userId: currentUserId, // <--- CHANGED THIS from "test_user_id" to user.uid
       fileName,
       originalText,
       correctedText,
@@ -98,17 +110,6 @@ export default function AnalysisResults() {
       console.error("Save error:", error);
     }
   };
-
-
-  if (!location.state) {
-    return (
-      <div className="min-h-screen bg-[#030a1a] flex items-center justify-center p-6">
-        <button onClick={() => navigate("/")} className="text-blue-400 flex items-center gap-2">
-          <ArrowLeft size={20} /> Please upload a file first
-        </button>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-linear-to-br from-[#030a1a] via-[#050f24] to-[#020617] text-white">

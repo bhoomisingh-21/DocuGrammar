@@ -104,18 +104,18 @@ app.post("/api/auth/google", async (req, res) => {
 // UPDATED ROUTE: Saves EVERYTHING from the results page
 app.post("/api/save-analysis", async (req, res) => {
   try {
-    // We use the spread operator (...) to catch every key 
-    // coming from your frontend (originalText, issues, clarityFeatures, etc.)
-    const newEntry = new Analysis({
-      ...req.body 
-    });
+    // Validation: Don't save if userId is missing or "test_user_id"
+    if (!req.body.userId || req.body.userId === "test_user_id") {
+      return res.status(400).json({ error: "Cannot save history without a valid User ID" });
+    }
 
+    const newEntry = new Analysis({ ...req.body });
     await newEntry.save();
     
     res.status(201).json({ message: "Full analysis session saved successfully!" });
   } catch (error) {
     console.error("Database Save Error:", error);
-    res.status(500).json({ error: "Failed to save data to database" });
+    res.status(500).json({ error: "Failed to save data" });
   }
 });
 
