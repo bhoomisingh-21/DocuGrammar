@@ -27,7 +27,7 @@ const RegisterPage = () => {
           headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
         });
         
-        const backendRes = await axios.post("http://localhost:5000/api/auth/google", {
+        const backendRes = await axios.post("https://docugrammar-backend.onrender.com/api/auth/google", {
           name: res.data.name,
           email: res.data.email,
           googleId: res.data.sub,

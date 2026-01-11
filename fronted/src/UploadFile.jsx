@@ -48,7 +48,7 @@ export default function UploadFile() {
       const formData = new FormData();
       file ? formData.append("file", file) : formData.append("text", text);
 
-      const res = await fetch("http://localhost:5000/uploadFile", {
+      const res = await fetch("https://docugrammar-backend.onrender.com/uploadFile", { 
         method: "POST",
         body: formData,
       });

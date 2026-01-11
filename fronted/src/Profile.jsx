@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import Navbar from "./NavBar";
-import { 
-  Clock, 
-  FileText, 
-  ChevronRight, 
-  Mail, 
-  ArrowLeft, 
-  Shield, 
-  Trash2, 
-  BarChart3, 
-  Sparkles 
+import {
+  Clock,
+  FileText,
+  ChevronRight,
+  Mail,
+  ArrowLeft,
+  Shield,
+  Trash2,
+  BarChart3,
+  Sparkles
 } from "lucide-react";
 
 export default function Profile() {
@@ -24,8 +24,8 @@ export default function Profile() {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const userId = user?.uid || "test_user_id"; 
-        const response = await fetch(`http://localhost:5000/api/user-history/${userId}`);
+        const userId = user?.uid || "test_user_id";
+        const response = await fetch(`https://docugrammar-backend.onrender.com/api/user-history/${userId}`);
         const data = await response.json();
         setHistory(data);
       } catch (err) {
@@ -42,10 +42,10 @@ export default function Profile() {
   };
 
   const handleDelete = async (e, id) => {
-    e.stopPropagation(); 
+    e.stopPropagation();
     if (!window.confirm("Delete this analysis?")) return;
     try {
-      await fetch(`http://localhost:5000/api/delete-analysis/${id}`, { method: "DELETE" });
+      await fetch(`https://docugrammar-backend.onrender.com/api/delete-analysis/${id}`, { method: "DELETE" });
       setHistory(history.filter(item => item._id !== id));
     } catch (err) {
       console.error("Delete failed");
@@ -57,11 +57,11 @@ export default function Profile() {
       <Navbar />
 
       <main className="max-w-5xl mx-auto px-6 pt-32 pb-20">
-        
+
         {/* CENTERED BUTTON */}
         <div className="mb-12 flex justify-center">
-          <button 
-            onClick={() => navigate("/upload")} 
+          <button
+            onClick={() => navigate("/upload")}
             className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors group"
           >
             <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
@@ -99,7 +99,7 @@ export default function Profile() {
                 <div className="text-gray-500 animate-pulse">Loading your history...</div>
               ) : history.length > 0 ? (
                 history.map((item) => (
-                  <div 
+                  <div
                     key={item._id}
                     onClick={() => handleViewAnalysis(item)}
                     className="group bg-[#0d121f] border border-white/5 hover:border-blue-500/30 p-5 rounded-2xl flex items-center justify-between transition-all cursor-pointer"
@@ -111,12 +111,12 @@ export default function Profile() {
                       <div className="min-w-0">
                         <p className="font-medium text-gray-200 truncate max-w-[150px] sm:max-w-xs">{item.fileName}</p>
                         <p className="text-xs text-gray-500">
-                           {new Date(item.createdAt).toLocaleDateString()}
+                          {new Date(item.createdAt).toLocaleDateString()}
                         </p>
                       </div>
                     </div>
                     <div className="flex items-center gap-4 sm:gap-6 shrink-0">
-                      <button 
+                      <button
                         onClick={(e) => handleDelete(e, item._id)}
                         className="p-2 text-gray-600 hover:text-red-400 transition-colors"
                       >
@@ -141,7 +141,7 @@ export default function Profile() {
               <BarChart3 className="text-blue-400" size={20} />
               <h2 className="text-xl font-bold">Writing Stats</h2>
             </div>
-            
+
             <div className="grid grid-cols-2 lg:grid-cols-1 gap-4 lg:space-y-6">
               <div className="bg-[#0d121f] border border-white/5 p-6 rounded-3xl flex flex-col justify-center">
                 <div className="flex items-center gap-2 mb-1">
@@ -162,7 +162,7 @@ export default function Profile() {
               </div>
             </div>
           </div>
-          
+
         </div>
       </main>
     </div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ArrowRight, Sparkles, ChevronLeft } from 'lucide-react';
 import { useGoogleLogin } from '@react-oauth/google';
-import axios from 'axios'; 
+import axios from 'axios';
 import { useAuth } from './context/AuthContext';
 
 const LoginPage = () => {
@@ -16,7 +16,7 @@ const LoginPage = () => {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      navigate('/upload'); 
+      navigate('/upload');
     }, 1500);
   };
 
@@ -30,7 +30,7 @@ const LoginPage = () => {
 
         const googleUser = res.data;
 
-        const backendRes = await axios.post("http://localhost:5000/api/auth/google", {
+        const backendRes = await axios.post("https://docugrammar-backend.onrender.com/api/auth/google", {
           name: googleUser.name,
           email: googleUser.email,
           googleId: googleUser.sub,
@@ -39,7 +39,7 @@ const LoginPage = () => {
 
         if (backendRes.data.success) {
           login(backendRes.data.user);
-          navigate("/upload"); 
+          navigate("/upload");
         }
       } catch (err) {
         console.error("Google Auth Failed:", err);
@@ -52,7 +52,7 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen bg-[#020617] text-slate-200 flex items-center justify-center p-4 font-sans selection:bg-blue-500/30">
-      
+
       {/* --- BACKGROUND EFFECTS --- */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-blue-600/20 blur-[120px] rounded-full animate-pulse" />
@@ -61,7 +61,7 @@ const LoginPage = () => {
 
       {/* --- MAIN LOGIN CONTAINER --- */}
       <div className="relative w-full max-w-5xl grid lg:grid-cols-2 bg-[#0b1120]/80 border border-slate-800/60 rounded-4xl md:rounded-4xl overflow-hidden shadow-2xl backdrop-blur-md animate-[fadeIn_0.5s_ease-out]">
-        
+
         {/* LEFT SIDE: Centered Branding (Hidden on mobile) */}
         <div className="hidden lg:flex flex-col items-center justify-center p-12 bg-linear-to-br from-blue-600/10 to-transparent border-r border-slate-800/50 relative overflow-hidden">
           <div className="absolute inset-0 opacity-[0.03] mask-[radial-gradient(ellipse_at_center,black,transparent)] pointer-events-none">
@@ -85,7 +85,7 @@ const LoginPage = () => {
         <div className="p-6 sm:p-10 md:p-16 flex flex-col justify-center relative">
           {/* Back Button - Centered on Mobile */}
           <div className="absolute top-6 left-0 right-0 lg:left-8 lg:right-auto flex justify-center lg:justify-start">
-            <button 
+            <button
               onClick={() => navigate('/')}
               className="flex items-center gap-2 text-slate-500 hover:text-white transition-colors text-xs sm:text-sm font-medium group"
             >
@@ -97,7 +97,7 @@ const LoginPage = () => {
           <div className="max-w-sm mx-auto w-full pt-8 lg:pt-0">
             {/* Mobile Logo */}
             <div className="mb-8 lg:hidden text-center">
-               <h1 className="text-3xl font-bold text-white tracking-tight">Docu<span className="text-blue-500">Grammar</span></h1>
+              <h1 className="text-3xl font-bold text-white tracking-tight">Docu<span className="text-blue-500">Grammar</span></h1>
             </div>
 
             <div className="mb-8 text-center lg:text-left">
@@ -110,8 +110,8 @@ const LoginPage = () => {
                 <label className="text-[10px] sm:text-xs font-semibold text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
                 <div className="relative group">
                   <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-500 transition-colors" size={20} />
-                  <input 
-                    type="email" 
+                  <input
+                    type="email"
                     required
                     placeholder="you@example.com"
                     className="w-full bg-slate-900/50 border border-slate-700/50 rounded-2xl py-3.5 sm:py-4 pl-12 pr-4 text-white outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 transition-all placeholder:text-slate-600 text-sm sm:text-base"
@@ -126,13 +126,13 @@ const LoginPage = () => {
                 </div>
                 <div className="relative group">
                   <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-500 transition-colors" size={20} />
-                  <input 
-                    type={showPassword ? "text" : "password"} 
+                  <input
+                    type={showPassword ? "text" : "password"}
                     required
                     placeholder="••••••••"
                     className="w-full bg-slate-900/50 border border-slate-700/50 rounded-2xl py-3.5 sm:py-4 pl-12 pr-12 text-white outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 transition-all placeholder:text-slate-600 text-sm sm:text-base"
                   />
-                  <button 
+                  <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white"
@@ -142,7 +142,7 @@ const LoginPage = () => {
                 </div>
               </div>
 
-              <button 
+              <button
                 disabled={isLoading}
                 className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3.5 sm:py-4 rounded-2xl shadow-lg shadow-blue-600/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-4 text-sm sm:text-base"
               >
@@ -164,8 +164,8 @@ const LoginPage = () => {
               </div>
             </div>
 
-            <button 
-              type="button" 
+            <button
+              type="button"
               onClick={() => googleLogin()}
               className="w-full flex items-center justify-center gap-3 border border-slate-700 hover:border-slate-500 bg-transparent rounded-2xl py-3 sm:py-3.5 transition-all font-semibold text-xs sm:text-sm group"
             >
@@ -174,7 +174,7 @@ const LoginPage = () => {
             </button>
 
             <p className="text-center text-slate-500 text-xs sm:text-sm mt-8 sm:mt-10">
-              Don't have an account? 
+              Don't have an account?
               <button onClick={() => navigate("/register")} className="text-blue-500 font-bold hover:text-blue-400 ml-1 transition-colors">Sign up</button>
             </p>
           </div>
