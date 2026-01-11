@@ -1,95 +1,54 @@
-import React from "react";
-import { CheckCircle } from "lucide-react";
 
-export default function ScoreCard({
-  title,
-  score,
-  label,
-  breakdownItems = [],
-  statusColor = "blue",
-  ringLabel = "",
-  primaryText = "",
-}) {
-  const colors = {
-    blue: {
-      ring: "#3b82f6",
-      text: "text-blue-400",
-      bg: "bg-blue-500/10",
-      border: "border-blue-500/20",
-    },
-    green: {
-      ring: "#10b981",
-      text: "text-green-400",
-      bg: "bg-green-500/10",
-      border: "border-green-500/20",
-    },
-  };
+import Info from "./Info";
 
-  const color = colors[statusColor];
+const ScoreCard = ({ title, score, label, color, subText, children, description }) => (
+  <div className="relative rounded-3xl p-6 md:p-8 bg-linear-to-br from-[#020617] via-[#07122b] to-[#020617] border border-white/10 flex flex-col justify-between">
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-lg md:text-xl font-semibold text-white">{title}</h3>
 
-  return (
-    <div className="relative rounded-3xl p-6 bg-linear-to-br from-[#020617] via-[#020a1e] to-[#000814] border border-white/10 shadow-[0_0_40px_rgba(59,130,246,0.35)]">
-      {/* HEADER */}
-      <div className="flex items-center gap-3 mb-6">
-        <div className={`w-6 h-6 rounded-full border-2 border-blue-500 flex items-center justify-center`}>
-          <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+        <div className="group relative">
+          <Info className="w-4 h-4 text-gray-500 cursor-help hover:text-blue-400 transition-colors" />
+
+          <div className="absolute bottom-full right-0 mb-2 w-48 p-3 bg-[#1e293b] border border-white/10 text-white text-[11px] rounded-xl shadow-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 leading-relaxed">
+            <div className="font-bold mb-1 border-b border-white/10 pb-1 uppercase tracking-tighter text-blue-400">
+              What is this?
+            </div>
+            {description}
+            <div className="absolute top-full right-1 w-2 h-2 bg-[#1e293b] rotate-45 border-r border-b border-white/10 -translate-y-1"></div>
+          </div>
         </div>
-        <h3 className="text-2xl font-semibold tracking-wide">{title}</h3>
       </div>
 
-      {/* SCORE RING */}
-      <div className="flex justify-center mb-8">
-        <div className="relative w-28 h-28">
-          <svg className="w-full h-full -rotate-90">
+      <div className="flex justify-center mb-6">
+        <div className="relative w-36 h-36 md:w-44 md:h-44">
+          <svg className="w-full h-full -rotate-90" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="54" stroke="rgba(255,255,255,0.05)" strokeWidth="6" fill="none" />
             <circle
-              cx="64"
-              cy="64"
-              r="52"
-              stroke="rgba(255,255,255,0.08)"
-              strokeWidth="10"
-              fill="none"
-            />
-            <circle
-              cx="64"
-              cy="64"
-              r="52"
-              stroke={color.ring}
-              strokeWidth="10"
-              fill="none"
-              strokeDasharray={2 * Math.PI * 52}
-              strokeDashoffset={2 * Math.PI * 52 * (1 - score / 100)}
+              cx="60" cy="60" r="54"
+              stroke={color} strokeWidth="6" fill="none"
+              strokeDasharray={339.29}
+              strokeDashoffset={339.29 * (1 - score / 100)}
               strokeLinecap="round"
+              style={{ filter: `drop-shadow(0 0 8px ${color}66)` }}
             />
           </svg>
-
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-2xl font-semibold">{score}</span>
-            {primaryText ? (
-              <span className="text-sm text-gray-400 mt-1">{primaryText}</span>
-            ) : (
-              <span className="text-sm text-gray-400 mt-1">{ringLabel}</span>
-            )}
+            <span className="text-3xl md:text-4xl font-black text-white leading-none">{score}</span>
+            <span className="text-[11px] md:text-[13px] font-bold uppercase tracking-widest text-gray-200 mt-2 whitespace-nowrap px-4 text-center">
+              {subText}
+            </span>
           </div>
         </div>
       </div>
 
-      {/* BREAKDOWN */}
-      <div className="space-y-3 text-sm mb-6">
-        {breakdownItems.map((item, i) => (
-          <div key={i} className="flex justify-between text-gray-300">
-            <span className="text-gray-400">{item.label}</span>
-            <span className="font-medium">{item.value}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* STATUS */}
-      <div
-        className={`w-full rounded-xl px-4 py-2 ${color.bg} ${color.text} font-medium flex items-center gap-2 border ${color.border}`}
-      >
-        <CheckCircle className="w-4 h-4" />
-        {label}
-      </div>
+      <div className="space-y-3 mb-6">{children}</div>
     </div>
-  );
-}
+
+    <div className="w-full rounded-xl py-3 px-4 bg-white/5 border border-white/10 text-center text-xs md:text-sm font-black uppercase tracking-widest" style={{ color }}>
+      {label}
+    </div>
+  </div>
+);
+
+export default ScoreCard;

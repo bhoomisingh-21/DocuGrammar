@@ -18,7 +18,7 @@ import TextBox from "./TextBox";
 import Tag from "./Tag";
 import HighlightedText from "./HighlightedText";
 import InsightList from "./InsightList";
-import ClarityScoreCard from "./ClarityScoreCard";
+import ClarityScoreCard from "./ClarityCard";
 import ToneCard from "./ToneCard";
 
 export default function AnalysisResults() {
