@@ -273,32 +273,41 @@ export function CTASection() {
             : "Join thousands of writers, students, and professionals who trust DocuGrammar to deliver flawless, impactful writing every day."}
         </p>
 
-        {/* CTA BUTTON LOGIC */}
-        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-          {user ? (
-            /* Logged In: Go to Upload */
-            <button
-              onClick={() => navigate("/upload")}
-              className="group flex items-center gap-3 bg-blue-600 text-white px-10 md:px-12 py-4 rounded-full font-semibold shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-[0_0_25px_rgba(37,99,235,0.4)] relative overflow-hidden"
-            >
-              <Sparkles className="w-5 h-5" />
-              <span className="relative z-10 font-bold text-lg md:text-xl">Start Analyzing</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
-          ) : (
-            /* Logged Out: Show Google Sign Up */
-            <button
-              onClick={() => navigate("/login")}
-              className="group flex items-center gap-3 bg-white text-black px-10 md:px-12 py-4 rounded-full font-semibold shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-[0_0_25px_rgba(255,255,255,0.4)] relative overflow-hidden"
-            >
-              <span className="absolute inset-0 bg-linear-to-r from-transparent via-white/40 to-transparent w-[200%] h-full -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png" className="w-6 relative z-10" alt="Google logo" />
-              <span className="relative z-10 font-bold text-lg md:text-xl">Sign up Now</span>
-            </button>
-          )}
-          
-          {!user && <p className="text-gray-500 text-sm">No credit card required.</p>}
-        </div>
+        {/* CTA BUTTONS - Force one-line on all screens */}
+<div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center">
+  {user ? (
+    <button
+      onClick={() => navigate("/upload")}
+      className="w-full sm:w-auto group flex items-center justify-center gap-2 md:gap-3 bg-blue-600 text-white px-6 md:px-12 py-3.5 md:py-4 rounded-full font-bold shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-[0_0_25px_rgba(37,99,235,0.5)]"
+    >
+      <Sparkles className="w-4 h-4 md:w-5 md:h-5 shrink-0" />
+      <span className="text-base md:text-xl whitespace-nowrap">
+        Start Analyzing
+      </span>
+      <ArrowRight className="w-4 h-4 md:w-5 md:h-5 shrink-0 group-hover:translate-x-1 transition-transform" />
+    </button>
+  ) : (
+    <button
+      onClick={() => navigate("/login")}
+      className="w-full sm:w-auto group flex items-center justify-center gap-3 bg-white text-black px-6 md:px-12 py-3.5 md:py-4 rounded-full font-bold shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 relative overflow-hidden"
+    >
+      <img 
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png" 
+        className="w-5 md:w-6 shrink-0" 
+        alt="Google" 
+      />
+      <span className="text-base md:text-xl whitespace-nowrap">
+        Sign up with Google
+      </span>
+    </button>
+  )}
+  
+  {!user && (
+    <p className="text-gray-500 text-xs md:text-sm font-medium whitespace-nowrap">
+      No credit card required.
+    </p>
+  )}
+</div>
       </div>
     </section>
   );
